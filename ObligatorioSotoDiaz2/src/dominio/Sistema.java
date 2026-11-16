@@ -1,11 +1,16 @@
 // Autores: Santino Soto (381618) - Juan Manuel Díaz (376055)
 package dominio;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -207,6 +212,117 @@ public class Sistema extends Observable implements Serializable {
             }
         }
         return total;
+    }
+
+    // ---------- Importar donaciones ----------
+
+    // Lee un archivo con lineas "rut#tipo#kilos" y registra las correctas.
+    // Si alguna linea tiene errores genera "<nombre>Error.txt" en la misma carpeta.
+    // Devuelve la cantidad de lineas con errores (0 = todo bien).
+    public int importarDonaciones(File archivo) throws IOException {
+        ArrayList<String> errores = new ArrayList<>();
+        int numeroLinea = 0;
+        try (BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
+            String linea = lector.readLine();
+            while (linea != null) {
+                numeroLinea++;
+                String problemas = procesarLinea(linea);
+                if (!problemas.isEmpty()) {
+                    errores.add("Linea " + numeroLinea + ": " + problemas);
+                }
+                linea = lector.readLine();
+            }
+        }
+        if (!errores.isEmpty()) {
+            grabarErrores(archivo, errores);
+        }
+        return errores.size();
+    }
+
+    // Registra la donacion si la linea es correcta; si no, devuelve el texto con los errores
+    private String procesarLinea(String linea) {
+        String problemas = "";
+        String[] partes = linea.split("#");
+        if (partes.length != 3) {
+            problemas = "formato incorrecto (se espera rut#tipo#cantidadDeKilos)";
+        } else {
+            Empresa empresa = buscarEmpresa(partes[0].trim());
+            if (empresa == null) {
+                problemas += "empresa no registrada; ";
+            }
+            int tipo = 0;
+            try {
+                tipo = Integer.parseInt(partes[1].trim());
+            } catch (NumberFormatException e) {
+                tipo = 0;
+            }
+            if (!Donacion.esTipoValido(tipo)) {
+                problemas += "tipo incorrecto; ";
+            }
+            double kilos = 0;
+            try {
+                kilos = Double.parseDouble(partes[2].trim());
+            } catch (NumberFormatException e) {
+                kilos = 0;
+            }
+            if (kilos <= 0) {
+                problemas += "cantidad incorrecta; ";
+            }
+            if (problemas.isEmpty()) {
+                registrarDonacion(empresa, tipo, kilos);
+            } else if (problemas.endsWith("; ")) {
+                problemas = problemas.substring(0, problemas.length() - 2); // saca el "; " del final
+            }
+        }
+        return problemas;
+    }
+
+    // Ej: "Datos.txt" -> "DatosError.txt"
+    private void grabarErrores(File archivo, ArrayList<String> errores) throws IOException {
+        String nombre = archivo.getName();
+        int punto = nombre.lastIndexOf('.');
+        String nombreError;
+        if (punto >= 0) {
+            nombreError = nombre.substring(0, punto) + "Error" + nombre.substring(punto);
+        } else {
+            nombreError = nombre + "Error";
+        }
+        File archivoError = new File(archivo.getParentFile(), nombreError);
+        try (PrintWriter escritor = new PrintWriter(new FileWriter(archivoError))) {
+            for (String error : errores) {
+                escritor.println(error);
+            }
+        }
+    }
+
+    // ---------- Pagina HTML ----------
+
+    // Genera la pagina con todas las adopciones y devuelve el archivo creado (para abrirlo en el navegador)
+    public File generarPagina(String ruta) throws IOException {
+        if (!ruta.toLowerCase().endsWith(".html")) {
+            ruta = ruta + ".html";
+        }
+        File pagina = new File(ruta);
+        try (PrintWriter html = new PrintWriter(pagina, "UTF-8")) {
+            html.println("<!DOCTYPE html>");
+            html.println("<html><head><meta charset=\"UTF-8\"><title>Adopciones</title></head><body>");
+            html.println("<h1>Adopciones del refugio</h1>");
+            if (adopciones.isEmpty()) {
+                html.println("<p>No hay adopciones registradas.</p>");
+            } else {
+                html.println("<p>Cantidad total de adopciones: " + adopciones.size() + "</p>");
+                html.println("<table border=\"1\">");
+                html.println("<tr><th>N&uacute;mero</th><th>C&oacute;digo</th><th>Animal</th><th>Familia</th><th>Comentarios</th></tr>");
+                for (Adopcion ad : adopciones) {
+                    html.println("<tr><td>" + ad.getNumero() + "</td><td>" + ad.getAnimal().getCodigo()
+                            + "</td><td>" + ad.getAnimal().getNombre() + "</td><td>" + ad.getFamilia().getApellido()
+                            + "</td><td>" + ad.getComentarios() + "</td></tr>");
+                }
+                html.println("</table>");
+            }
+            html.println("</body></html>");
+        }
+        return pagina;
     }
 
     // ---------- Persistencia ----------

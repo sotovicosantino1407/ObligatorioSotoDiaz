@@ -4,12 +4,13 @@ package interfaz;
 import dominio.Animal;
 import dominio.Donacion;
 import dominio.Sistema;
-import java.awt.Color;
-import java.awt.Component;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -50,26 +51,6 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         lblStock3.setText("Stock perros adultos: " + sistema.stockDeTipo(Donacion.PERROS_ADULTOS) + " kg");
         lblStock4.setText("Stock otros: " + sistema.stockDeTipo(Donacion.OTRO) + " kg");
         lstAnimales.setListData(sistema.getAnimales().toArray(new Animal[0]));
-    }
-
-    // Pinta cada animal con el color de su estado
-    private class RenderAnimales extends DefaultListCellRenderer {
-
-        @Override
-        public Component getListCellRendererComponent(JList<?> lista, Object valor,
-                int indice, boolean seleccionado, boolean foco) {
-            super.getListCellRendererComponent(lista, valor, indice, seleccionado, foco);
-            Animal animal = (Animal) valor;
-            setText(animal.getNombre() + " - " + animal.getEstado());
-            if (animal.estaDisponible()) {
-                setForeground(new Color(0, 128, 0));
-            } else if (animal.estaEntregado()) {
-                setForeground(Color.BLUE);
-            } else {
-                setForeground(Color.RED);
-            }
-            return this;
-        }
     }
 
     /**
@@ -160,9 +141,11 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jMenu2.add(itemAdopcion);
 
         itemCambiarEstado.setText("Cambiar de estado");
+        itemCambiarEstado.addActionListener(this::itemCambiarEstadoActionPerformed);
         jMenu2.add(itemCambiarEstado);
 
         itemAnularAdopcion.setText("Anular adopcion");
+        itemAnularAdopcion.addActionListener(this::itemAnularAdopcionActionPerformed);
         jMenu2.add(itemAnularAdopcion);
 
         itemDonacion.setText("Registrar donacion");
@@ -170,6 +153,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jMenu2.add(itemDonacion);
 
         itemImportar.setText("Importar donaciones");
+        itemImportar.addActionListener(this::itemImportarActionPerformed);
         jMenu2.add(itemImportar);
 
         jMenuBar1.add(jMenu2);
@@ -270,6 +254,39 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private void itemAdopcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAdopcionActionPerformed
         new RealizarAdopcion(sistema).setVisible(true);
     }//GEN-LAST:event_itemAdopcionActionPerformed
+
+    private void itemCambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCambiarEstadoActionPerformed
+       new CambiarEstado(sistema).setVisible(true);
+    }//GEN-LAST:event_itemCambiarEstadoActionPerformed
+
+    private void itemAnularAdopcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAnularAdopcionActionPerformed
+        new AnularAdopcion(sistema).setVisible(true);
+    }//GEN-LAST:event_itemAnularAdopcionActionPerformed
+
+    private void itemImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarActionPerformed
+        importarDonaciones();
+    }//GEN-LAST:event_itemImportarActionPerformed
+
+    // Deja elegir un archivo de texto y le pide al sistema que registre las donaciones que trae
+    private void importarDonaciones() {
+        JFileChooser selector = new JFileChooser();
+        selector.setDialogTitle("Elegir archivo de donaciones");
+        selector.setFileFilter(new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt"));
+        if (selector.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File archivo = selector.getSelectedFile();
+            try {
+                int errores = sistema.importarDonaciones(archivo);
+                if (errores == 0) {
+                    JOptionPane.showMessageDialog(this, "Importacion terminada sin errores");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Importacion terminada con " + errores
+                            + " linea(s) con errores.\nSe genero un archivo de errores en la misma carpeta.");
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "No se pudo leer el archivo", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 
     /**^
      * @param args the command line arguments

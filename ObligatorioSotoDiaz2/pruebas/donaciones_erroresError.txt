@@ -1,0 +1,9 @@
+Linea 2: empresa no registrada; 
+Linea 3: tipo incorrecto; 
+Linea 4: cantidad incorrecta; 
+Linea 5: formato incorrecto (se espera rut#tipo#cantidadDeKilos)
+Linea 6: tipo incorrecto; 
+Linea 7: cantidad incorrecta; 
+Linea 8: formato incorrecto (se espera rut#tipo#cantidadDeKilos)
+Linea 9: empresa no registrada; tipo incorrecto; cantidad incorrecta; 
+Linea 10: formato incorrecto (se espera rut#tipo#cantidadDeKilos)
