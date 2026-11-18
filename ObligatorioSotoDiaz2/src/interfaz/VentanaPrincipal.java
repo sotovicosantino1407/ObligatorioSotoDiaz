@@ -17,9 +17,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author sotov
  */
 public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
 
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
 
     private Sistema sistema; // el modelo: de aca sale todo lo que se muestra
 
@@ -93,8 +92,13 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         itemAutores = new javax.swing.JMenuItem();
         itemSalir = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Refugio de perros");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         lblTotal.setText("lblTotal");
 
@@ -177,6 +181,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jMenu3.add(itemAutores);
 
         itemSalir.setText("Salir");
+        itemSalir.addActionListener(this::itemSalirActionPerformed);
         jMenu3.add(itemSalir);
 
         jMenuBar1.add(jMenu3);
@@ -236,11 +241,11 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemAltaAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAltaAnimalActionPerformed
-               new AltaAnimal(sistema).setVisible(true);
+        new AltaAnimal(sistema).setVisible(true);
     }//GEN-LAST:event_itemAltaAnimalActionPerformed
 
     private void itemAltaFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAltaFamiliaActionPerformed
-       new AltaFamilia(sistema).setVisible(true);
+        new AltaFamilia(sistema).setVisible(true);
     }//GEN-LAST:event_itemAltaFamiliaActionPerformed
 
     private void itemAltaEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAltaEmpresaActionPerformed
@@ -256,7 +261,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_itemAdopcionActionPerformed
 
     private void itemCambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCambiarEstadoActionPerformed
-       new CambiarEstado(sistema).setVisible(true);
+        new CambiarEstado(sistema).setVisible(true);
     }//GEN-LAST:event_itemCambiarEstadoActionPerformed
 
     private void itemAnularAdopcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAnularAdopcionActionPerformed
@@ -266,6 +271,14 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private void itemImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarActionPerformed
         importarDonaciones();
     }//GEN-LAST:event_itemImportarActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        salir();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void itemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalirActionPerformed
+        salir();
+    }//GEN-LAST:event_itemSalirActionPerformed
 
     // Deja elegir un archivo de texto y le pide al sistema que registre las donaciones que trae
     private void importarDonaciones() {
@@ -288,9 +301,19 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         }
     }
 
-    /**^
-     * @param args the command line arguments
-     */
+    //Guarda los datos y cierra, si no se puede guardar pregunta 
+    private void salir() {
+        try {
+            sistema.guardar(Sistema.ARCHIVO_DATOS);
+            System.exit(0);
+        } catch (IOException e) {
+            int respuesta = JOptionPane.showConfirmDialog(this, "Los datos no se guardaron, ¿Desea salir igual?", "Error", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                System.exit(0);
+            }
+        }
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

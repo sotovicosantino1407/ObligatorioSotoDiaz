@@ -17,7 +17,8 @@ import java.util.Observable;
 
 // Clase central del dominio: guarda todos los datos y avisa a las ventanas cuando algo cambia
 public class Sistema extends Observable implements Serializable {
-
+    
+    public static final String ARCHIVO_DATOS = "datos.ser";
     private ArrayList<Animal> animales;
     private ArrayList<Familia> familias;
     private ArrayList<Empresa> empresas;
