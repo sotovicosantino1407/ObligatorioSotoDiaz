@@ -5,6 +5,7 @@ import dominio.Animal;
 import dominio.Donacion;
 import dominio.Sistema;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -175,6 +176,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jMenu3.add(itemPagina);
 
         itemRecuperar.setText("Recuperar datos");
+        itemRecuperar.addActionListener(this::itemRecuperarActionPerformed);
         jMenu3.add(itemRecuperar);
 
         itemAutores.setText("Autores");
@@ -234,7 +236,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
                         .addComponent(lblStock3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblStock4)))
-                .addGap(0, 295, Short.MAX_VALUE))
+                .addGap(0, 7, Short.MAX_VALUE))
         );
 
         pack();
@@ -280,6 +282,10 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         salir();
     }//GEN-LAST:event_itemSalirActionPerformed
 
+    private void itemRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemRecuperarActionPerformed
+        recuperarDatos();   
+    }//GEN-LAST:event_itemRecuperarActionPerformed
+
     // Deja elegir un archivo de texto y le pide al sistema que registre las donaciones que trae
     private void importarDonaciones() {
         JFileChooser selector = new JFileChooser();
@@ -313,7 +319,21 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
             }
         }
     }
-
+    
+    private void recuperarDatos(){
+        int respuesta = JOptionPane.showConfirmDialog(this, "Los datos actuales se reemplazarán por los guardados, ¿Desea continuar?", "Recuperar datos", JOptionPane.YES_NO_OPTION);
+        if(respuesta == JOptionPane.YES_OPTION){
+            try {
+                sistema.recuperar(Sistema.ARCHIVO_DATOS);
+                JOptionPane.showMessageDialog(this, "Datos recuperados de manera exitosa");
+            } catch (FileNotFoundException e){
+                JOptionPane.showMessageDialog(this, "No hay datos guardados");
+            } catch (IOException | ClassNotFoundException e ){
+                JOptionPane.showMessageDialog(this, "El archivo de datos está dañado", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
