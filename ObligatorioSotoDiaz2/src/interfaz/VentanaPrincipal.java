@@ -180,6 +180,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jMenu3.add(itemRecuperar);
 
         itemAutores.setText("Autores");
+        itemAutores.addActionListener(this::itemAutoresActionPerformed);
         jMenu3.add(itemAutores);
 
         itemSalir.setText("Salir");
@@ -285,6 +286,10 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private void itemRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemRecuperarActionPerformed
         recuperarDatos();   
     }//GEN-LAST:event_itemRecuperarActionPerformed
+
+    private void itemAutoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAutoresActionPerformed
+        new Autores().setVisible(true);
+    }//GEN-LAST:event_itemAutoresActionPerformed
 
     // Deja elegir un archivo de texto y le pide al sistema que registre las donaciones que trae
     private void importarDonaciones() {
