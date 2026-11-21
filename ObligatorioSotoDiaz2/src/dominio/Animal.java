@@ -53,12 +53,12 @@ public class Animal implements Serializable {
         return estado.equals(DISPONIBLE);
     }
 
-    // true si ya fue adoptado por una familia y devuelve la contante ENTREGADO.
+    // true si ya fue entregado a una familia en una adopción
     public boolean estaEntregado() {
         return estado.equals(ENTREGADO);
     }
 
-    // Pasa de disponible a no disponible y viceversa (no aplica a entregados) Devuleve o nodisponible o disponible.
+    // Pasa de disponible a no disponible y viceversa (no aplica a entregados)
     public void cambiarEstado() {
         if (estaDisponible()) {
             estado = NO_DISPONIBLE;
