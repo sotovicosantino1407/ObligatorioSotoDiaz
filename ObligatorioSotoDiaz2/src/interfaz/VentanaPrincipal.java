@@ -157,6 +157,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jMenu3.setText("Varios");
 
         itemConsultaFamilia.setText("Consulta de familia");
+        itemConsultaFamilia.addActionListener(this::itemConsultaFamiliaActionPerformed);
         jMenu3.add(itemConsultaFamilia);
 
         itemConsultaDonaciones.setText("Consulta de donaciones");
@@ -286,6 +287,10 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private void itemConsultaDonacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemConsultaDonacionesActionPerformed
         new ConsultaDonaciones(sistema).setVisible(true);
     }//GEN-LAST:event_itemConsultaDonacionesActionPerformed
+
+    private void itemConsultaFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemConsultaFamiliaActionPerformed
+        new ConsultaFamilia(sistema).setVisible(true);
+    }//GEN-LAST:event_itemConsultaFamiliaActionPerformed
 
     // Deja elegir un archivo de texto y le pide al sistema que registre las donaciones que trae
     private void importarDonaciones() {
