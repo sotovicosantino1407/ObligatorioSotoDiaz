@@ -11,13 +11,13 @@ import javax.swing.ListSelectionModel;
 public class CambiarEstado extends javax.swing.JFrame implements Observer {
 
 
-    private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
+    private Sistema sistema;
 
     public CambiarEstado(Sistema sistema) {
         initComponents();
         this.sistema = sistema;
-        sistema.addObserver(this); // la lista se actualiza si cambian los datos
-        lstAnimales.setCellRenderer(new RenderAnimales()); // verde disponible, rojo no disponible
+        sistema.addObserver(this);
+        lstAnimales.setCellRenderer(new RenderAnimales());
         lstAnimales.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setLocationRelativeTo(null);
         cargarAnimales();
@@ -28,7 +28,6 @@ public class CambiarEstado extends javax.swing.JFrame implements Observer {
         cargarAnimales();
     }
 
-    // Al cerrar la ventana dejamos de observar al sistema
     @Override
     public void dispose() {
         sistema.deleteObserver(this);
@@ -98,7 +97,7 @@ public class CambiarEstado extends javax.swing.JFrame implements Observer {
         if (animal == null) {
             JOptionPane.showMessageDialog(this, "Seleccione un animal de la lista", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            sistema.cambiarEstado(animal); // pasa de disponible a no disponible o al reves
+            sistema.cambiarEstado(animal);
         }
     }//GEN-LAST:event_btnCambiarActionPerformed
 

@@ -17,7 +17,7 @@ import java.util.Observable;
 
 // Clase central del dominio: guarda todos los datos y avisa a las ventanas cuando algo cambia
 public class Sistema extends Observable implements Serializable {
-    
+
     public static final String ARCHIVO_DATOS = "datos.ser";
     private ArrayList<Animal> animales;
     private ArrayList<Familia> familias;
@@ -46,7 +46,6 @@ public class Sistema extends Observable implements Serializable {
     }
 
     // ---------- Animales ----------
-
     public ArrayList<Animal> getAnimales() {
         return animales;
     }
@@ -99,7 +98,6 @@ public class Sistema extends Observable implements Serializable {
     }
 
     // ---------- Familias ----------
-
     public ArrayList<Familia> getFamilias() {
         return familias;
     }
@@ -140,7 +138,6 @@ public class Sistema extends Observable implements Serializable {
     }
 
     // ---------- Empresas ----------
-
     public ArrayList<Empresa> getEmpresas() {
         return empresas;
     }
@@ -168,7 +165,6 @@ public class Sistema extends Observable implements Serializable {
     }
 
     // ---------- Adopciones ----------
-
     // Las adopciones se agregan en orden, asi que la lista ya queda ordenada por numero
     public ArrayList<Adopcion> getAdopciones() {
         return adopciones;
@@ -190,13 +186,18 @@ public class Sistema extends Observable implements Serializable {
     }
 
     // ---------- Donaciones ----------
-
     // Igual que las adopciones, ya quedan ordenadas por numero
     public ArrayList<Donacion> getDonaciones() {
         return donaciones;
     }
 
-    public Donacion registrarDonacion(Empresa empresa, int tipo, double kilos) {
+    public Donacion registrarDonacion(Empresa empresa, int tipo, double kilos) throws DatosInvalidosException {
+        if (!Donacion.esTipoValido(tipo)) {
+            throw new DatosInvalidosException("Tipo de alimento incorrecto");
+        }
+        if (!Donacion.esKilosValido(kilos)) {
+            throw new DatosInvalidosException("Los kilos deben ser un número mayor a cero");
+        }
         ultimaDonacion++;
         Donacion donacion = new Donacion(ultimaDonacion, empresa, tipo, kilos);
         donaciones.add(donacion);
@@ -216,7 +217,6 @@ public class Sistema extends Observable implements Serializable {
     }
 
     // ---------- Importar donaciones ----------
-
     // Lee un archivo con lineas "rut#tipo#kilos" y registra las correctas.
     // Si alguna linea tiene errores genera "<nombre>Error.txt" en la misma carpeta.
     // Devuelve la cantidad de lineas con errores (0 = todo bien).
@@ -266,11 +266,16 @@ public class Sistema extends Observable implements Serializable {
             } catch (NumberFormatException e) {
                 kilos = 0;
             }
-            if (kilos <= 0) {
-                problemas += "cantidad incorrecta; ";
+            if (!Donacion.esKilosValido(kilos)) {
+                problemas += "cantidad incorrecta, debe ser mayor a 0; ";
             }
+
             if (problemas.isEmpty()) {
-                registrarDonacion(empresa, tipo, kilos);
+                try {
+                    registrarDonacion(empresa, tipo, kilos);
+                } catch (DatosInvalidosException e) {
+                    problemas = e.getMessage();
+                }
             } else if (problemas.endsWith("; ")) {
                 problemas = problemas.substring(0, problemas.length() - 2); // saca el "; " del final
             }
@@ -297,7 +302,6 @@ public class Sistema extends Observable implements Serializable {
     }
 
     // ---------- Pagina HTML ----------
-
     // Genera la pagina con todas las adopciones y devuelve el archivo creado (para abrirlo en el navegador)
     public File generarPagina(String ruta) throws IOException {
         if (!ruta.toLowerCase().endsWith(".html")) {
@@ -327,7 +331,6 @@ public class Sistema extends Observable implements Serializable {
     }
 
     // ---------- Persistencia ----------
-
     // Se llama solo al salir del programa
     public void guardar(String nombreArchivo) throws IOException {
         try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(nombreArchivo))) {

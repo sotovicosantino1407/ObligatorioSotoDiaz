@@ -113,7 +113,7 @@ public class AltaAnimal extends javax.swing.JFrame {
                 || txtPeso.getText().trim().isEmpty()) {
             mostrarError("Complete todos los campos");
         } else if (peso <= 0) {
-            mostrarError("El peso debe ser un numero mayor a 0");
+            mostrarError("El peso debe ser un número mayor a 0");
         } else {
             String estado = Animal.DISPONIBLE;
             if (cmbEstado.getSelectedIndex() == 1) {
@@ -124,7 +124,7 @@ public class AltaAnimal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Animal registrado");
                 limpiar();
             } else {
-                mostrarError("Ya existe un animal con ese codigo");
+                mostrarError("Ya existe un animal con ese código");
             }
         }
     }

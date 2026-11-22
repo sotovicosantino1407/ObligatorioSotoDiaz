@@ -1,6 +1,7 @@
 // Autores: Santino Soto (381618) - Juan Manuel Díaz (376055)
 package interfaz;
 
+import dominio.DatosInvalidosException;
 import dominio.Donacion;
 import dominio.Empresa;
 import dominio.Sistema;
@@ -11,12 +12,12 @@ import javax.swing.JOptionPane;
 public class RegistrarDonacion extends javax.swing.JFrame implements Observer {
 
 
-    private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
+    private Sistema sistema;
 
     public RegistrarDonacion(Sistema sistema) {
         initComponents();
         this.sistema = sistema;
-        sistema.addObserver(this); // si se registra una empresa con esta ventana abierta, el combo se actualiza
+        sistema.addObserver(this);
         setLocationRelativeTo(null);
         cargarEmpresas();
     }
@@ -26,7 +27,6 @@ public class RegistrarDonacion extends javax.swing.JFrame implements Observer {
         cargarEmpresas();
     }
 
-    // Al cerrar la ventana dejamos de observar al sistema
     @Override
     public void dispose() {
         sistema.deleteObserver(this);
@@ -119,13 +119,15 @@ public class RegistrarDonacion extends javax.swing.JFrame implements Observer {
 
         if (empresa == null) {
             mostrarError("Primero debe registrar una empresa");
-        } else if (kilos <= 0) {
-            mostrarError("Los kilos deben ser un numero mayor a cero");
         } else {
-            int tipo = cmbTipo.getSelectedIndex() + 1; // el combo empieza en 0 y los tipos en 1
-            Donacion donacion = sistema.registrarDonacion(empresa, tipo, kilos);
-            JOptionPane.showMessageDialog(this, "Donacion registrada. Numero: " + donacion.getNumero());
-            limpiar();
+            try {
+                int tipo = cmbTipo.getSelectedIndex() + 1; // el combo empieza en 0 y los tipos en 1
+                Donacion donacion = sistema.registrarDonacion(empresa, tipo, kilos);
+                JOptionPane.showMessageDialog(this, "Donación registrada. Número: " + donacion.getNumero());
+                limpiar();
+            } catch (DatosInvalidosException e) {
+                mostrarError(e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 

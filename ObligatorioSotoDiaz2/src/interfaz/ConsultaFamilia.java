@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class ConsultaFamilia extends javax.swing.JFrame implements Observer {
 
-    private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
+    private Sistema sistema;
 
     public ConsultaFamilia(Sistema sistema) {
         initComponents();
@@ -25,7 +25,6 @@ public class ConsultaFamilia extends javax.swing.JFrame implements Observer {
         cargarFamilias();
     }
 
-    // Al cerrar la ventana dejamos de observar al sistema
     @Override
     public void dispose() {
         sistema.deleteObserver(this);

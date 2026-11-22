@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class ConsultaDonaciones extends javax.swing.JFrame implements Observer {
 
-    private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
+    private Sistema sistema;
 
     public ConsultaDonaciones(Sistema sistema) {
         initComponents();
@@ -24,7 +24,6 @@ public class ConsultaDonaciones extends javax.swing.JFrame implements Observer {
         cargarDonaciones();
     }
 
-    // Al cerrar la ventana dejamos de observar al sistema
     @Override
     public void dispose() {
         sistema.deleteObserver(this);

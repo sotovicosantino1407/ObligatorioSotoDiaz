@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 public class AltaEmpresa extends javax.swing.JFrame {
 
 
-    private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
+    private Sistema sistema;
 
     public AltaEmpresa(Sistema sistema) {
         initComponents();
@@ -92,7 +92,6 @@ public class AltaEmpresa extends javax.swing.JFrame {
             mostrarError("Complete todos los campos");
         } else {
             Empresa empresa = new Empresa(nombre, rut, direccion);
-            // agregarEmpresa devuelve false si ya existe una empresa con ese RUT
             if (sistema.agregarEmpresa(empresa)) {
                 JOptionPane.showMessageDialog(this, "Empresa registrada");
                 limpiar();

@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 public class GenerarPagina extends javax.swing.JFrame {
 
-    private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
+    private Sistema sistema;
     private File pagina;    
     
     public GenerarPagina(Sistema sistema) {
@@ -69,7 +69,7 @@ public class GenerarPagina extends javax.swing.JFrame {
         try {
             Desktop.getDesktop().browse(pagina.toURI());
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this,"No se pudo abrir la página", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se pudo abrir la página", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAbrirActionPerformed
 
@@ -84,7 +84,7 @@ public class GenerarPagina extends javax.swing.JFrame {
                 pack();
                 btnAbrir.setEnabled(true);
             }catch(IOException e){
-                JOptionPane.showMessageDialog(this,"No se pudo generar la página", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No se pudo generar la página", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
        

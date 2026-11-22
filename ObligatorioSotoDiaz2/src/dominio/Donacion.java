@@ -43,7 +43,12 @@ public class Donacion implements Serializable {
     public static boolean esTipoValido(int tipo) {
         return tipo >= PERROS_GRANDES && tipo <= OTRO;
     }
-
+    
+    // Se usa para validar el monto de kilos
+    public static boolean esKilosValido(double kilos) {
+        return kilos > 0 && !Double.isInfinite(kilos);
+    }
+    
     // Nombre del tipo para mostrar en pantalla
     public static String nombreTipo(int tipo) {
         String nombre;

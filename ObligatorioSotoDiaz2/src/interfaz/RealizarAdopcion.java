@@ -13,14 +13,13 @@ import javax.swing.ListSelectionModel;
 public class RealizarAdopcion extends javax.swing.JFrame implements Observer {
 
 
-    private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
+    private Sistema sistema;
 
     public RealizarAdopcion(Sistema sistema) {
         initComponents();
         this.sistema = sistema;
-        sistema.addObserver(this); // la lista y el combo se actualizan si cambian los datos
+        sistema.addObserver(this);
         lstAnimales.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        // al elegir un animal en la lista se muestran su peso y temperamento
         lstAnimales.addListSelectionListener(e -> mostrarDatosAnimal());
         setLocationRelativeTo(null);
         cargarAnimales();
@@ -33,7 +32,6 @@ public class RealizarAdopcion extends javax.swing.JFrame implements Observer {
         cargarFamilias();
     }
 
-    // Al cerrar la ventana dejamos de observar al sistema
     @Override
     public void dispose() {
         sistema.deleteObserver(this);
@@ -167,7 +165,7 @@ public class RealizarAdopcion extends javax.swing.JFrame implements Observer {
         } else {
             String comentarios = txtComentarios.getText().trim();
             Adopcion adopcion = sistema.realizarAdopcion(animal, familia, comentarios);
-            JOptionPane.showMessageDialog(this, "Adopcion realizada. Numero: " + adopcion.getNumero());
+            JOptionPane.showMessageDialog(this, "Adopción realizada. Número: " + adopcion.getNumero());
             txtComentarios.setText("");
         }
     }//GEN-LAST:event_btnAdoptarActionPerformed

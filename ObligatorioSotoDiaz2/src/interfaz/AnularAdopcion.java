@@ -11,12 +11,12 @@ import javax.swing.ListSelectionModel;
 public class AnularAdopcion extends javax.swing.JFrame implements Observer {
 
 
-    private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
+    private Sistema sistema;
 
     public AnularAdopcion(Sistema sistema) {
         initComponents();
         this.sistema = sistema;
-        sistema.addObserver(this); // la lista se actualiza si cambian los datos
+        sistema.addObserver(this);
         lstAdopciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setLocationRelativeTo(null);
         cargarAdopciones();
@@ -27,7 +27,6 @@ public class AnularAdopcion extends javax.swing.JFrame implements Observer {
         cargarAdopciones();
     }
 
-    // Al cerrar la ventana dejamos de observar al sistema
     @Override
     public void dispose() {
         sistema.deleteObserver(this);
@@ -97,10 +96,10 @@ public class AnularAdopcion extends javax.swing.JFrame implements Observer {
     private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
         Adopcion adopcion = lstAdopciones.getSelectedValue();
         if (adopcion == null) {
-            JOptionPane.showMessageDialog(this, "Seleccione una adopcion de la lista", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleccione una adopción de la lista", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             sistema.anularAdopcion(adopcion); // el animal pasa a no disponible
-            JOptionPane.showMessageDialog(this, "Adopcion anulada");
+            JOptionPane.showMessageDialog(this, "Adopción anulada");
         }
     }//GEN-LAST:event_btnAnularActionPerformed
 

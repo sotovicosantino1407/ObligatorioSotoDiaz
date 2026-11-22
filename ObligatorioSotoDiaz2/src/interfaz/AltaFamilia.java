@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 public class AltaFamilia extends javax.swing.JFrame {
 
 
-    private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
+    private Sistema sistema;
 
     public AltaFamilia(Sistema sistema) {
         initComponents();
@@ -94,12 +94,11 @@ public class AltaFamilia extends javax.swing.JFrame {
             mostrarError("Complete todos los campos");
         } else {
             Familia familia = new Familia(cedula, apellido, celular);
-            // agregarFamilia devuelve false si ya existe una familia con esa cedula
             if (sistema.agregarFamilia(familia)) {
                 JOptionPane.showMessageDialog(this, "Familia registrada");
                 limpiar();
             } else {
-                mostrarError("Ya existe una familia con esa cedula");
+                mostrarError("Ya existe una familia con esa cédula");
             }
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed

@@ -17,18 +17,17 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
 
-    private Sistema sistema; // el modelo: de aca sale todo lo que se muestra
+    private Sistema sistema;
 
     public VentanaPrincipal(Sistema sistema) {
         initComponents();
         this.sistema = sistema;
-        sistema.addObserver(this); // me registro para que Sistema me avise de los cambios
-        lstAnimales.setCellRenderer(new RenderAnimales()); // la lista pinta cada fila con color
+        sistema.addObserver(this);
+        lstAnimales.setCellRenderer(new RenderAnimales());
         setLocationRelativeTo(null);
-        actualizar(); // primera carga de los datos
+        actualizar();
     }
 
-    // Lo llama el Sistema cada vez que cambia algo
     @Override
     public void update(Observable o, Object arg) {
         actualizar();
@@ -307,9 +306,9 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
             try {
                 int errores = sistema.importarDonaciones(archivo);
                 if (errores == 0) {
-                    JOptionPane.showMessageDialog(this, "Importacion terminada sin errores");
+                    JOptionPane.showMessageDialog(this, "Importación terminada sin errores");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Importacion terminada con " + errores
+                    JOptionPane.showMessageDialog(this, "Importación terminada con " + errores
                             + " linea(s) con errores.\nSe genero un archivo de errores en la misma carpeta.");
                 }
             } catch (IOException e) {
@@ -349,12 +348,8 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     // El sistema siempre arranca vacío; los datos se cargan solo con "Recuperar datos"
     public static void main(String args[]) {
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+            // Look and feel del sistema operativo (estilo Windows, como pide la letra)
+            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
