@@ -9,8 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 
 public class CambiarEstado extends javax.swing.JFrame implements Observer {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CambiarEstado.class.getName());
+
 
     private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
 

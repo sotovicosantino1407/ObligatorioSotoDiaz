@@ -31,6 +31,7 @@ public class ConsultaDonaciones extends javax.swing.JFrame implements Observer {
         super.dispose();
     }
 
+    // Carga la tabla con todas las donaciones, ordenadas por número
     private void cargarDonaciones() {
         DefaultTableModel modelo = (DefaultTableModel) tblDonaciones.getModel();
         modelo.setRowCount(0);

@@ -324,7 +324,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
             sistema.guardar(Sistema.ARCHIVO_DATOS);
             System.exit(0);
         } catch (IOException e) {
-            int respuesta = JOptionPane.showConfirmDialog(this, "Los datos no se guardaron, ¿Desea salir igual?", "Error", JOptionPane.YES_NO_OPTION);
+            int respuesta = JOptionPane.showConfirmDialog(this, "Los datos no se guardaron, ¿desea salir igual?", "Error", JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.YES_OPTION) {
                 System.exit(0);
             }
@@ -333,7 +333,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     
     // Reemplaza los datos actuales por los guardados, previa confirmación
     private void recuperarDatos(){
-        int respuesta = JOptionPane.showConfirmDialog(this, "Los datos actuales se reemplazarán por los guardados, ¿Desea continuar?", "Recuperar datos", JOptionPane.YES_NO_OPTION);
+        int respuesta = JOptionPane.showConfirmDialog(this, "Los datos actuales se reemplazarán por los guardados, ¿desea continuar?", "Recuperar datos", JOptionPane.YES_NO_OPTION);
         if(respuesta == JOptionPane.YES_OPTION){
             try {
                 sistema.recuperar(Sistema.ARCHIVO_DATOS);

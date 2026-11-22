@@ -6,8 +6,7 @@ import dominio.Sistema;
 import javax.swing.JOptionPane;
 
 public class AltaEmpresa extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AltaEmpresa.class.getName());
+
 
     private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
 

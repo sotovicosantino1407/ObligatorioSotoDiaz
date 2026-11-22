@@ -5,8 +5,7 @@ import dominio.Animal;
 import dominio.Sistema;
 import javax.swing.JOptionPane;
 public class AltaAnimal extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AltaAnimal.class.getName());
+
 
     private Sistema sistema;
 

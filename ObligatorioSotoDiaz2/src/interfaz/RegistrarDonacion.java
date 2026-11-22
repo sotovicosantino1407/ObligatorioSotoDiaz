@@ -9,8 +9,7 @@ import java.util.Observer;
 import javax.swing.JOptionPane;
 
 public class RegistrarDonacion extends javax.swing.JFrame implements Observer {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistrarDonacion.class.getName());
+
 
     private Sistema sistema; // el mismo Sistema que usa toda la aplicacion
 
