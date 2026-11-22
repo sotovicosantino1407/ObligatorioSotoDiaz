@@ -166,6 +166,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
         itemPagina.setText("Generacion de pagina");
         itemPagina.setToolTipText("");
+        itemPagina.addActionListener(this::itemPaginaActionPerformed);
         jMenu3.add(itemPagina);
 
         itemRecuperar.setText("Recuperar datos");
@@ -291,6 +292,10 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private void itemConsultaFamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemConsultaFamiliaActionPerformed
         new ConsultaFamilia(sistema).setVisible(true);
     }//GEN-LAST:event_itemConsultaFamiliaActionPerformed
+
+    private void itemPaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPaginaActionPerformed
+        new GenerarPagina(sistema).setVisible(true);
+    }//GEN-LAST:event_itemPaginaActionPerformed
 
     // Deja elegir un archivo de texto y le pide al sistema que registre las donaciones que trae
     private void importarDonaciones() {
