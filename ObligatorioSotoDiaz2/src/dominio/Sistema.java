@@ -51,7 +51,10 @@ public class Sistema extends Observable implements Serializable {
     }
 
     // Devuelve false si el codigo ya existe
-    public boolean agregarAnimal(Animal animal) {
+    public boolean agregarAnimal(Animal animal) throws DatosInvalidosException {
+        if (!Animal.esPesoValido(animal.getPeso())) {
+            throw new DatosInvalidosException("El peso debe ser un número mayor a 0");
+        }
         boolean agregado = false;
         if (!animales.contains(animal)) {
             animales.add(animal);

@@ -2,6 +2,7 @@
 package interfaz;
 
 import dominio.Animal;
+import dominio.DatosInvalidosException;
 import dominio.Sistema;
 import javax.swing.JOptionPane;
 public class AltaAnimal extends javax.swing.JFrame {
@@ -103,7 +104,7 @@ public class AltaAnimal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         String codigo = txtCodigo.getText().trim();
         String nombre = txtNombre.getText().trim();
         String temperamento = txtTemperamento.getText().trim();
@@ -112,22 +113,24 @@ public class AltaAnimal extends javax.swing.JFrame {
         if (codigo.isEmpty() || nombre.isEmpty() || temperamento.isEmpty()
                 || txtPeso.getText().trim().isEmpty()) {
             mostrarError("Complete todos los campos");
-        } else if (peso <= 0) {
-            mostrarError("El peso debe ser un número mayor a 0");
         } else {
             String estado = Animal.DISPONIBLE;
             if (cmbEstado.getSelectedIndex() == 1) {
                 estado = Animal.NO_DISPONIBLE;
             }
             Animal animal = new Animal(codigo, nombre, temperamento, peso, estado);
-            if (sistema.agregarAnimal(animal)) {
-                JOptionPane.showMessageDialog(this, "Animal registrado");
-                limpiar();
-            } else {
-                mostrarError("Ya existe un animal con ese código");
+            try {
+                if (sistema.agregarAnimal(animal)) {
+                    JOptionPane.showMessageDialog(this, "Animal registrado");
+                    limpiar();
+                } else {
+                    mostrarError("Ya existe un animal con ese código");
+                }
+            } catch (DatosInvalidosException e) {
+                mostrarError(e.getMessage());
             }
         }
-    }
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     // Devuelve el peso, o -1 si el texto no es un numero
     private double leerPeso() {

@@ -58,6 +58,11 @@ public class Animal implements Serializable {
         return estado.equals(ENTREGADO);
     }
 
+    // Se usa para validar el peso al dar de alta un animal
+    public static boolean esPesoValido(double peso) {
+        return peso > 0 && !Double.isInfinite(peso);
+    }
+
     // Pasa de disponible a no disponible y viceversa (no aplica a entregados)
     public void cambiarEstado() {
         if (estaDisponible()) {
