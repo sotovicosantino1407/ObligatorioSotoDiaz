@@ -1,22 +1,20 @@
 // Autores: Santino Soto (381618) - Juan Manuel Díaz (376055)
 package dominio;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 
 // Clase central del dominio: guarda todos los datos y avisa a las ventanas cuando algo cambia
 public class Sistema extends Observable implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     public static final String ARCHIVO_DATOS = "datos.ser";
     private ArrayList<Animal> animales;
@@ -39,13 +37,11 @@ public class Sistema extends Observable implements Serializable {
         ultimaDonacion = 0;
     }
 
-    // Avisa a todas las ventanas que observan al sistema para que se actualicen
     private void avisarCambios() {
         setChanged();
         notifyObservers();
     }
 
-    // ---------- Animales ----------
     public ArrayList<Animal> getAnimales() {
         return animales;
     }
@@ -100,7 +96,6 @@ public class Sistema extends Observable implements Serializable {
         return cantidad;
     }
 
-    // ---------- Familias ----------
     public ArrayList<Familia> getFamilias() {
         return familias;
     }
@@ -133,14 +128,19 @@ public class Sistema extends Observable implements Serializable {
         return copia;
     }
 
-    // De mayor a menor cantidad de adopciones
+    // De mayor a menor cantidad de adopciones; si empatan, por apellido
     public ArrayList<Familia> getFamiliasPorAdopciones() {
         ArrayList<Familia> copia = new ArrayList<>(familias);
-        copia.sort((f1, f2) -> cantidadAdopcionesDe(f2) - cantidadAdopcionesDe(f1));
+        copia.sort((f1, f2) -> {
+            int dif = cantidadAdopcionesDe(f2) - cantidadAdopcionesDe(f1);
+            if (dif == 0) {
+                dif = f1.getApellido().compareToIgnoreCase(f2.getApellido());
+            }
+            return dif;
+        });
         return copia;
     }
 
-    // ---------- Empresas ----------
     public ArrayList<Empresa> getEmpresas() {
         return empresas;
     }
@@ -167,7 +167,6 @@ public class Sistema extends Observable implements Serializable {
         return encontrada;
     }
 
-    // ---------- Adopciones ----------
     // Las adopciones se agregan en orden, asi que la lista ya queda ordenada por numero
     public ArrayList<Adopcion> getAdopciones() {
         return adopciones;
@@ -188,7 +187,6 @@ public class Sistema extends Observable implements Serializable {
         avisarCambios();
     }
 
-    // ---------- Donaciones ----------
     // Igual que las adopciones, ya quedan ordenadas por numero
     public ArrayList<Donacion> getDonaciones() {
         return donaciones;
@@ -219,24 +217,19 @@ public class Sistema extends Observable implements Serializable {
         return total;
     }
 
-    // ---------- Importar donaciones ----------
-    // Lee un archivo con lineas "rut#tipo#kilos" y registra las correctas.
-    // Si alguna linea tiene errores genera "<nombre>Error.txt" en la misma carpeta.
-    // Devuelve la cantidad de lineas con errores (0 = todo bien).
+    // Registra las líneas correctas y devuelve cuántas tuvieron errores (las graba en "<nombre>Error.txt")
     public int importarDonaciones(File archivo) throws IOException {
         ArrayList<String> errores = new ArrayList<>();
         int numeroLinea = 0;
-        try (BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
-            String linea = lector.readLine();
-            while (linea != null) {
-                numeroLinea++;
-                String problemas = procesarLinea(linea);
-                if (!problemas.isEmpty()) {
-                    errores.add("Linea " + numeroLinea + ": " + problemas);
-                }
-                linea = lector.readLine();
+        ArchivoLectura lector = new ArchivoLectura(archivo.getPath());
+        while (lector.hayMasLineas()) {
+            numeroLinea++;
+            String problemas = procesarLinea(lector.linea());
+            if (!problemas.isEmpty()) {
+                errores.add("Línea " + numeroLinea + ": " + problemas);
             }
         }
+        lector.cerrar();
         if (!errores.isEmpty()) {
             grabarErrores(archivo, errores);
         }
@@ -297,43 +290,41 @@ public class Sistema extends Observable implements Serializable {
             nombreError = nombre + "Error";
         }
         File archivoError = new File(archivo.getParentFile(), nombreError);
-        try (PrintWriter escritor = new PrintWriter(new FileWriter(archivoError))) {
-            for (String error : errores) {
-                escritor.println(error);
-            }
+        ArchivoGrabacion escritor = new ArchivoGrabacion(archivoError.getPath());
+        for (String error : errores) {
+            escritor.grabarLinea(error);
         }
+        escritor.cerrar();
     }
 
-    // ---------- Pagina HTML ----------
     // Genera la pagina con todas las adopciones y devuelve el archivo creado (para abrirlo en el navegador)
     public File generarPagina(String ruta) throws IOException {
         if (!ruta.toLowerCase().endsWith(".html")) {
             ruta = ruta + ".html";
         }
         File pagina = new File(ruta);
-        try (PrintWriter html = new PrintWriter(pagina, "UTF-8")) {
-            html.println("<!DOCTYPE html>");
-            html.println("<html><head><meta charset=\"UTF-8\"><title>Adopciones</title></head><body>");
-            html.println("<h1>Adopciones del refugio</h1>");
-            if (adopciones.isEmpty()) {
-                html.println("<p>No hay adopciones registradas.</p>");
-            } else {
-                html.println("<p>Cantidad total de adopciones: " + adopciones.size() + "</p>");
-                html.println("<table border=\"1\">");
-                html.println("<tr><th>N&uacute;mero</th><th>C&oacute;digo</th><th>Animal</th><th>Familia</th><th>Comentarios</th></tr>");
-                for (Adopcion ad : adopciones) {
-                    html.println("<tr><td>" + ad.getNumero() + "</td><td>" + ad.getAnimal().getCodigo()
-                            + "</td><td>" + ad.getAnimal().getNombre() + "</td><td>" + ad.getFamilia().getApellido()
-                            + "</td><td>" + ad.getComentarios() + "</td></tr>");
-                }
-                html.println("</table>");
+        ArchivoGrabacion html = new ArchivoGrabacion(pagina.getPath());
+        html.grabarLinea("<!DOCTYPE html>");
+        html.grabarLinea("<html><head><meta charset=\"UTF-8\"><title>Adopciones</title></head><body>");
+        html.grabarLinea("<h1>Adopciones del refugio</h1>");
+        if (adopciones.isEmpty()) {
+            html.grabarLinea("<p>No hay adopciones registradas.</p>");
+        } else {
+            html.grabarLinea("<p>Cantidad total de adopciones: " + adopciones.size() + "</p>");
+            html.grabarLinea("<table border=\"1\">");
+            html.grabarLinea("<tr><th>N&uacute;mero</th><th>C&oacute;digo</th><th>Animal</th><th>Familia</th><th>Comentarios</th></tr>");
+            for (Adopcion ad : adopciones) {
+                html.grabarLinea("<tr><td>" + ad.getNumero() + "</td><td>" + ad.getAnimal().getCodigo()
+                        + "</td><td>" + ad.getAnimal().getNombre() + "</td><td>" + ad.getFamilia().getApellido()
+                        + "</td><td>" + ad.getComentarios() + "</td></tr>");
             }
-            html.println("</body></html>");
+            html.grabarLinea("</table>");
         }
+        html.grabarLinea("</body></html>");
+        html.cerrar();
         return pagina;
     }
 
-    // ---------- Persistencia ----------
     // Se llama solo al salir del programa
     public void guardar(String nombreArchivo) throws IOException {
         try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(nombreArchivo))) {

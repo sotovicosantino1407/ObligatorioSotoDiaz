@@ -5,7 +5,8 @@ import java.io.Serializable;
 
 public class Donacion implements Serializable {
 
-    // Tipos de alimento segun el enunciado
+    private static final long serialVersionUID = 1L;
+
     public static final int PERROS_GRANDES = 1;
     public static final int PERROS_CHICOS = 2;
     public static final int PERROS_ADULTOS = 3;
@@ -44,7 +45,7 @@ public class Donacion implements Serializable {
         return tipo >= PERROS_GRANDES && tipo <= OTRO;
     }
     
-    // Se usa para validar el monto de kilos
+    // Se usa para validar los kilos al registrar e importar donaciones
     public static boolean esKilosValido(double kilos) {
         return kilos > 0 && !Double.isInfinite(kilos);
     }

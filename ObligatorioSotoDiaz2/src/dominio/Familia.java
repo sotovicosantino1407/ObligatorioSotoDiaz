@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 public class Familia implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private String cedula; // del titular, sin validar formato
     private String apellido;
     private String celular; // sin validar formato

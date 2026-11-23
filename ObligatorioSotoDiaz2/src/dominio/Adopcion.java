@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 public class Adopcion implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private int numero; // lo asigna Sistema, autonumerado desde 1
     private Animal animal;
     private Familia familia;

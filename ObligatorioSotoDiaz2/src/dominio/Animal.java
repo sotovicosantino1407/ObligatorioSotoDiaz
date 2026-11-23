@@ -5,7 +5,8 @@ import java.io.Serializable;
 
 public class Animal implements Serializable {
 
-    // Estados posibles de un animal
+    private static final long serialVersionUID = 1L;
+
     public static final String NO_DISPONIBLE = "No disponible";
     public static final String DISPONIBLE = "Disponible";
     public static final String ENTREGADO = "Entregado a familia";
@@ -48,12 +49,10 @@ public class Animal implements Serializable {
         this.estado = estado;
     }
 
-    // true si el animal se puede adoptar
     public boolean estaDisponible() {
         return estado.equals(DISPONIBLE);
     }
 
-    // true si ya fue entregado a una familia en una adopción
     public boolean estaEntregado() {
         return estado.equals(ENTREGADO);
     }
