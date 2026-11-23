@@ -86,7 +86,7 @@ public class RealizarAdopcion extends javax.swing.JFrame implements Observer {
         btnAdoptar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Realizar adopcion");
+        setTitle("Realizar adopción");
 
         lblAnimales.setText("Animales disponibles");
 

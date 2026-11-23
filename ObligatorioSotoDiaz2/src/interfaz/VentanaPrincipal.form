@@ -42,7 +42,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="itemAdopcion">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Realizar adopcion"/>
+                <Property name="text" type="java.lang.String" value="Realizar adopci&#xf3;n"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAdopcionActionPerformed"/>
@@ -58,7 +58,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemAnularAdopcion">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Anular adopcion"/>
+                <Property name="text" type="java.lang.String" value="Anular adopci&#xf3;n"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAnularAdopcionActionPerformed"/>
@@ -66,7 +66,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemDonacion">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Registrar donacion"/>
+                <Property name="text" type="java.lang.String" value="Registrar donaci&#xf3;n"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemDonacionActionPerformed"/>
@@ -105,7 +105,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemPagina">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Generacion de pagina"/>
+                <Property name="text" type="java.lang.String" value="Generaci&#xf3;n de p&#xe1;gina"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <Events>

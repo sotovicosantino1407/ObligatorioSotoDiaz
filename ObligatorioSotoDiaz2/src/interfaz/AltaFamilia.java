@@ -31,7 +31,7 @@ public class AltaFamilia extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alta de familia");
 
-        lblCedula.setText("Cedula");
+        lblCedula.setText("Cédula");
 
         lblApellido.setText("Apellido");
 

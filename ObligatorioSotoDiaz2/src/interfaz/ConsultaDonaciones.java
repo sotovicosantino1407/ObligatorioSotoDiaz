@@ -35,7 +35,7 @@ public class ConsultaDonaciones extends javax.swing.JFrame implements Observer {
         DefaultTableModel modelo = (DefaultTableModel) tblDonaciones.getModel();
         modelo.setRowCount(0);
         for (Donacion d : sistema.getDonaciones()) {
-            modelo.addRow(new Object[]{d.getNumero(), d.getEmpresa().getNombre(), Donacion.nombreTipo(d.getTipo()), d.getKilos()});
+            modelo.addRow(new Object[]{d.getNumero(), d.getEmpresa().getNombre(), Donacion.nombreTipo(d.getTipo()), d.getKilos(), d.getEmpresa().getRut()});
         }
     }
 
@@ -54,11 +54,11 @@ public class ConsultaDonaciones extends javax.swing.JFrame implements Observer {
 
             },
             new String [] {
-                "Número", "Empresa", "Tipo", "Kilos"
+                "Número", "Empresa", "Tipo", "Kilos", "RUT"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

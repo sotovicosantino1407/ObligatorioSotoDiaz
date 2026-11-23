@@ -35,7 +35,7 @@ public class AltaEmpresa extends javax.swing.JFrame {
 
         lblRut.setText("RUT");
 
-        lblDireccion.setText("Direccion");
+        lblDireccion.setText("Dirección");
 
         btnRegistrar.setText("Registrar");
         btnRegistrar.addActionListener(this::btnRegistrarActionPerformed);

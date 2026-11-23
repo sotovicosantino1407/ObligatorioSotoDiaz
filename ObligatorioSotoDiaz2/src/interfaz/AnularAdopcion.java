@@ -52,13 +52,13 @@ public class AnularAdopcion extends javax.swing.JFrame implements Observer {
         btnAnular = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Anular adopcion");
+        setTitle("Anular adopción");
 
         lblAdopciones.setText("Adopciones");
 
         jScrollPane1.setViewportView(lstAdopciones);
 
-        btnAnular.setText("Anular adopcion");
+        btnAnular.setText("Anular adopción");
         btnAnular.addActionListener(this::btnAnularActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

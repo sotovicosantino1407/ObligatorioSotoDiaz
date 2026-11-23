@@ -58,7 +58,7 @@ public class RegistrarDonacion extends javax.swing.JFrame implements Observer {
         btnRegistrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registrar Donacion");
+        setTitle("Registrar donación");
 
         lblEmpresa.setText("Empresa");
 

@@ -85,7 +85,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblDireccion">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Direccion"/>
+        <Property name="text" type="java.lang.String" value="Direcci&#xf3;n"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNombre">

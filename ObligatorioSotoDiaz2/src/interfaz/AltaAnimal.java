@@ -35,7 +35,7 @@ public class AltaAnimal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alta de animal");
 
-        jLabel1.setText("Codigo");
+        jLabel1.setText("Código");
 
         jLabel2.setText("Temperamento");
 

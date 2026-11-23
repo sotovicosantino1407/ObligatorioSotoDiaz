@@ -131,7 +131,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
         jMenu2.setText("Movimientos");
 
-        itemAdopcion.setText("Realizar adopcion");
+        itemAdopcion.setText("Realizar adopción");
         itemAdopcion.addActionListener(this::itemAdopcionActionPerformed);
         jMenu2.add(itemAdopcion);
 
@@ -139,11 +139,11 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         itemCambiarEstado.addActionListener(this::itemCambiarEstadoActionPerformed);
         jMenu2.add(itemCambiarEstado);
 
-        itemAnularAdopcion.setText("Anular adopcion");
+        itemAnularAdopcion.setText("Anular adopción");
         itemAnularAdopcion.addActionListener(this::itemAnularAdopcionActionPerformed);
         jMenu2.add(itemAnularAdopcion);
 
-        itemDonacion.setText("Registrar donacion");
+        itemDonacion.setText("Registrar donación");
         itemDonacion.addActionListener(this::itemDonacionActionPerformed);
         jMenu2.add(itemDonacion);
 
@@ -163,7 +163,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         itemConsultaDonaciones.addActionListener(this::itemConsultaDonacionesActionPerformed);
         jMenu3.add(itemConsultaDonaciones);
 
-        itemPagina.setText("Generacion de pagina");
+        itemPagina.setText("Generación de página");
         itemPagina.setToolTipText("");
         itemPagina.addActionListener(this::itemPaginaActionPerformed);
         jMenu3.add(itemPagina);

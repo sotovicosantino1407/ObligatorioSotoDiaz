@@ -42,7 +42,7 @@ public class ConsultaFamilia extends javax.swing.JFrame implements Observer {
             lista = sistema.getFamiliasPorAdopciones();
         }
         for (Familia f : lista) {
-            modelo.addRow(new Object[]{f.getApellido(), f.getCedula(), sistema.cantidadAdopcionesDe(f)});
+            modelo.addRow(new Object[]{f.getApellido(), f.getCedula(), sistema.cantidadAdopcionesDe(f), f.getCelular()});
         }
     }
 
@@ -68,11 +68,11 @@ public class ConsultaFamilia extends javax.swing.JFrame implements Observer {
 
             },
             new String [] {
-                "Apellido", "Cédula", "Adopciones"
+                "Apellido", "Cédula", "Adopciones", "Celular"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
